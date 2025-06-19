@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/productCard.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,44 +11,67 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-
-    void productDialog(){
-      showDialog(context: context, builder: (context){
-        TextEditingController productNameController=TextEditingController();
-        TextEditingController productImageController=TextEditingController();
-        TextEditingController productQTYCotroller=TextEditingController();
-        TextEditingController productUnitPriceController=TextEditingController();
-        TextEditingController productTotalPriceControlller=TextEditingController();
-        return AlertDialog(
-          title: Text("Add production"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: InputDecoration(labelText: "Product Name"),
+    void productDialog() {
+      showDialog(
+          context: context,
+          builder: (context) {
+            TextEditingController productNameController =
+                TextEditingController();
+            TextEditingController productImageController =
+                TextEditingController();
+            TextEditingController productQTYCotroller = TextEditingController();
+            TextEditingController productUnitPriceController =
+                TextEditingController();
+            TextEditingController productTotalPriceControlller =
+                TextEditingController();
+            return AlertDialog(
+              title: Text("Add production"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: productNameController,
+                    decoration: InputDecoration(labelText: "Product Name"),
+                  ),
+                  TextField(
+                    controller: productImageController,
+                    decoration:
+                        InputDecoration(labelText: "Product Image link"),
+                  ),
+                  TextField(
+                    controller: productQTYCotroller,
+                    decoration: InputDecoration(labelText: "Product Quantity"),
+                  ),
+                  TextField(
+                    controller: productUnitPriceController,
+                    decoration: InputDecoration(labelText: "Product Price"),
+                  ),
+                  TextField(
+                    controller: productTotalPriceControlller,
+                    decoration:
+                        InputDecoration(labelText: "Product Total price"),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Close")),
+                      ElevatedButton(
+                          onPressed: () {}, child: Text("Add product"))
+                    ],
+                  )
+                ],
               ),
-              TextField(
-                decoration: InputDecoration(labelText: "Product Image link"),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Product Quantity"),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Product Price"),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Product Total price"),
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Product Name"),
-              ),
-
-            ],
-          ),
-
-        );
-      });
+            );
+          });
     }
+
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
@@ -64,16 +88,36 @@ class _HomeState extends State<Home> {
         ),
         //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),side:BorderSide(color: Colors.greenAccent,width: 10) ),
       ),
-      floatingActionButton: FloatingActionButton(
 
+
+
+      body: GridView.builder(
+        itemCount: 10,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //  crossAxisSpacing: 1,
+            // mainAxisSpacing: 35,
+            crossAxisCount: 2, childAspectRatio: 1),
+        itemBuilder: (context, index) {
+          return productCard(onEdit:(){
+            productDialog();
+          } ,onDelete: (){},);
+        },
+      ),
+
+
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         onPressed: () {
           productDialog();
         },
         child: Icon(
           Icons.add,
-          color: Colors.blue,
+          color: Colors.black,
         ),
       ),
     );
   }
 }
+
+
