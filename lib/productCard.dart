@@ -24,12 +24,12 @@ class productCard extends StatelessWidget {
               //width: 100,
               child: Image.network(
                   fit: BoxFit.cover,
-                  "https://static.vecteezy.com/system/resources/previews/007/505/089/non_2x/online-shopping-store-on-website-and-mobile-phone-design-smart-business-marketing-concept-horizontal-view-illustration-vector.jpg"),
+                  "${product.img}"),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [Text("Product Name:${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
+                children: [Text("${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
               ),
             ),
             Padding(

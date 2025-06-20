@@ -11,12 +11,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   ProductController productController=ProductController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchData();
+  }
+  void fetchData()async{
+    await productController.fetchProduct();
     setState(() {
-      productController.fetchProduct();
     });
   }
 
@@ -98,16 +102,42 @@ class _HomeState extends State<Home> {
 
 
 
-      body: GridView.builder(
+      body: productController.products.isEmpty?
+      Center(child: CircularProgressIndicator()):
+      GridView.builder(
         itemCount: productController.products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //  crossAxisSpacing: 1,
-            // mainAxisSpacing: 35,
+          //  crossAxisSpacing: 1,
+          // mainAxisSpacing: 35,
             crossAxisCount: 2, childAspectRatio: 1),
         itemBuilder: (context, index) {
-          return productCard(onEdit:(){
-            productDialog();
-          } ,onDelete: (){}, product: productController.products[index],);
+          var product=productController.products[index];
+
+          return productCard(
+              onEdit:(){
+              // print(productController.products.length);
+              productDialog();
+            },
+              onDelete: (){
+            productController.deleteProduct(product.sId.toString()).then((value)async{
+              if(value){
+                await productController.fetchProduct();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Successfully Deleted"),
+                    duration: Duration(seconds: 3),),
+                );
+                setState(() {
+                });
+
+              }
+              else{
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Something wrong...!"),
+                    duration: Duration(seconds: 3),),
+                );
+              }
+            });
+          }, product: product);
         },
       ),
 
