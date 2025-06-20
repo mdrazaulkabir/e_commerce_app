@@ -1,13 +1,15 @@
+import 'package:e_commerce_app/productModel.dart';
 import 'package:flutter/material.dart';
 
 class productCard extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-
+  final Data product;
   const productCard({
     super.key,
     required this.onEdit,
     required this.onDelete,
+    required this.product
   });
 
   @override
@@ -27,7 +29,7 @@ class productCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [Text("Product Name"), Text("Price: 50  |  QTY: 20")],
+                children: [Text("Product Name:${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
               ),
             ),
             Padding(

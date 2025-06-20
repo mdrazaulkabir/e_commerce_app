@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/productCard.dart';
+import 'package:e_commerce_app/productController.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -9,21 +10,27 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ProductController productController=ProductController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      productController.fetchProduct();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     void productDialog() {
       showDialog(
           context: context,
           builder: (context) {
-            TextEditingController productNameController =
-                TextEditingController();
-            TextEditingController productImageController =
-                TextEditingController();
+            TextEditingController productNameController = TextEditingController();
+            TextEditingController productImageController = TextEditingController();
             TextEditingController productQTYCotroller = TextEditingController();
-            TextEditingController productUnitPriceController =
-                TextEditingController();
-            TextEditingController productTotalPriceControlller =
-                TextEditingController();
+            TextEditingController productUnitPriceController = TextEditingController();
+            TextEditingController productTotalPriceControlller = TextEditingController();
             return AlertDialog(
               title: Text("Add production"),
               content: Column(
@@ -92,7 +99,7 @@ class _HomeState extends State<Home> {
 
 
       body: GridView.builder(
-        itemCount: 10,
+        itemCount: productController.products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             //  crossAxisSpacing: 1,
             // mainAxisSpacing: 35,
@@ -100,7 +107,7 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index) {
           return productCard(onEdit:(){
             productDialog();
-          } ,onDelete: (){},);
+          } ,onDelete: (){}, product: productController.products[index],);
         },
       ),
 
