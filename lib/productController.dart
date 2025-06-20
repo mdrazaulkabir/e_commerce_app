@@ -14,9 +14,28 @@ class ProductController {
       products=model.data ?? [];
     }
   }
+
+  Future<void>CreateProduct(String productName,String img, int qty,int unitPrice,int totalPrice)async{
+    final response=await http.post(Uri.parse(Urls.createProduct),
+        headers: {"Content-type":"application/json"},
+      body: jsonEncode({
+        "ProductName": productName,
+        "ProductCode": 156156,
+        "Img": img,
+        "Qty": qty,
+        "UnitPrice": unitPrice,
+        "TotalPrice": totalPrice
+      })
+    );
+    if(response.statusCode==201){
+     await fetchProduct();
+    }
+  }
+
+
   Future<bool>deleteProduct(String idProduct)async{
     final response=await http.get(Uri.parse(Urls.deleteProduct(idProduct)));
-    if(response==200){
+    if(response.statusCode==200){
       fetchProduct();
       return true;
     }

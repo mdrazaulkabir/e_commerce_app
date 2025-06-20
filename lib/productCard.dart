@@ -29,7 +29,7 @@ class productCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [Text("${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
+                children: [Text("Product Name:${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
               ),
             ),
             Padding(

@@ -74,7 +74,13 @@ class _HomeState extends State<Home> {
                           },
                           child: Text("Close")),
                       ElevatedButton(
-                          onPressed: () {}, child: Text("Add product"))
+                          onPressed: () {
+                            productController.CreateProduct(productNameController.text, productImageController.text, int.parse(productQTYCotroller.text.trim()), int.parse(productUnitPriceController.text.trim()), int.parse(productTotalPriceControlller.text.trim()));
+                            Navigator.pop(context);
+                            setState(() {
+
+                            });
+                          }, child: Text("Add product"))
                     ],
                   )
                 ],
@@ -114,10 +120,13 @@ class _HomeState extends State<Home> {
           var product=productController.products[index];
 
           return productCard(
+
               onEdit:(){
               // print(productController.products.length);
               productDialog();
             },
+
+
               onDelete: (){
             productController.deleteProduct(product.sId.toString()).then((value)async{
               if(value){
@@ -126,9 +135,7 @@ class _HomeState extends State<Home> {
                   SnackBar(content: Text("Successfully Deleted"),
                     duration: Duration(seconds: 3),),
                 );
-                setState(() {
-                });
-
+                setState(() {  });
               }
               else{
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -137,7 +144,8 @@ class _HomeState extends State<Home> {
                 );
               }
             });
-          }, product: product);
+          },
+              product: product);
         },
       ),
 
