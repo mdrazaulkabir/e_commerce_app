@@ -82,7 +82,30 @@ class _HomeState extends State<Home> {
                           child: Text("Close")),
                       ElevatedButton(
                           onPressed: () async{
-                            await productController.CreateProduct(productNameController.text, productImageController.text, int.parse(productQTYCotroller.text.trim()), int.parse(productUnitPriceController.text.trim()), int.parse(productTotalPriceControlller.text.trim()),'',false);
+
+
+                            await productController.CreateUpdateProduct(productNameController.text, productImageController.text, int.parse(productQTYCotroller.text.trim()), int.parse(productUnitPriceController.text.trim()), int.parse(productTotalPriceControlller.text.trim()),id,isUpdate).then((value) async{
+                              if(value){
+                                await productController.fetchProduct();
+                                setState(() {});
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(isUpdate? "product updated":"Product added"),
+                                        duration: Duration(seconds: 3),
+                                    ));
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text("Something wrong!...."),
+                                      duration: Duration(seconds: 3),
+                                    ));
+
+                              }
+                            });
+
+
+
                             Navigator.pop(context);
                             await productController.fetchProduct();
                             setState(() {

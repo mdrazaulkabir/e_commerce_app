@@ -15,8 +15,8 @@ class ProductController {
     }
   }
 
-  Future<void>CreateProduct(String productName,String img, int qty,int unitPrice,int totalPrice,String? productId,bool isUpdate)async{
-    final response=await http.post(isUpdate? Uri.parse(Urls.updateProduct(productId!)):Uri.parse(Urls.createProduct),
+  Future<bool>CreateUpdateProduct(String productName,String img, int qty,int unitPrice,int totalPrice,String? productId,bool isUpdate)async{
+    final response=await http.post( Uri.parse(isUpdate ? Urls.updateProduct(productId!) : Urls.createProduct),
         headers: {"Content-Type":"application/json"},
         body: jsonEncode({
         "ProductName": productName,
@@ -30,8 +30,12 @@ class ProductController {
     print("Status: ${response.statusCode}");
     print("Body: ${response.body}");
 
-    if(response.statusCode==201){
+    if(response.statusCode==201 ||response.statusCode==200){
      await fetchProduct();
+     return true;
+    }
+    else{
+      return false;
     }
   }
 
