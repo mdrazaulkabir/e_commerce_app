@@ -29,7 +29,12 @@ class productCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [Text("Product Name:${product.productName.toString()}"), Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")],
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(child: Text("Product Name:${product.productName.toString()}",textAlign: TextAlign.justify,)),
+                  Text("Price: ${product.unitPrice}  |  QTY: ${product.qty}")
+                ],
               ),
             ),
             Padding(

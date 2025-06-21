@@ -26,17 +26,24 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    void productDialog() {
+    void productDialog({String ? name,String ? id, String ? img,int ? qty,int ? unitPrice,int ? totalPrice, required bool isUpdate}) {
+      TextEditingController productNameController = TextEditingController();
+      TextEditingController productImageController = TextEditingController();
+      TextEditingController productQTYCotroller = TextEditingController();
+      TextEditingController productUnitPriceController = TextEditingController();
+      TextEditingController productTotalPriceControlller = TextEditingController();
+
+      productNameController.text= name ?? '';
+      productImageController.text=img ?? '';
+      productQTYCotroller.text=qty!=null ? qty.toString() : '';
+      productUnitPriceController.text=unitPrice!=null ? unitPrice.toString() : "";
+      productTotalPriceControlller.text=totalPrice!=null? totalPrice.toString() : "";
+
       showDialog(
           context: context,
           builder: (context) {
-            TextEditingController productNameController = TextEditingController();
-            TextEditingController productImageController = TextEditingController();
-            TextEditingController productQTYCotroller = TextEditingController();
-            TextEditingController productUnitPriceController = TextEditingController();
-            TextEditingController productTotalPriceControlller = TextEditingController();
             return AlertDialog(
-              title: Text("Add production"),
+              title: Text(isUpdate? "Edit product":"Add product"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -74,17 +81,19 @@ class _HomeState extends State<Home> {
                           },
                           child: Text("Close")),
                       ElevatedButton(
-                          onPressed: () {
-                            productController.CreateProduct(productNameController.text, productImageController.text, int.parse(productQTYCotroller.text.trim()), int.parse(productUnitPriceController.text.trim()), int.parse(productTotalPriceControlller.text.trim()));
+                          onPressed: () async{
+                            await productController.CreateProduct(productNameController.text, productImageController.text, int.parse(productQTYCotroller.text.trim()), int.parse(productUnitPriceController.text.trim()), int.parse(productTotalPriceControlller.text.trim()),'',false);
                             Navigator.pop(context);
+                            await productController.fetchProduct();
                             setState(() {
 
                             });
-                          }, child: Text("Add product"))
+                          }, child: Text(isUpdate? "Update product":"Add product"))
                     ],
                   )
                 ],
               ),
+              
             );
           });
     }
@@ -108,9 +117,7 @@ class _HomeState extends State<Home> {
 
 
 
-      body: productController.products.isEmpty?
-      Center(child: CircularProgressIndicator()):
-      GridView.builder(
+      body: productController.products.isEmpty? Center(child: CircularProgressIndicator()) : GridView.builder(
         itemCount: productController.products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           //  crossAxisSpacing: 1,
@@ -123,7 +130,7 @@ class _HomeState extends State<Home> {
 
               onEdit:(){
               // print(productController.products.length);
-              productDialog();
+              productDialog(isUpdate: true,id: product.sId,name: product.productName,img: product.img,qty: product.qty,unitPrice: product.unitPrice,totalPrice: product.totalPrice);
             },
 
 
@@ -154,7 +161,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () {
-          productDialog();
+          productDialog(isUpdate: false);
         },
         child: Icon(
           Icons.add,
