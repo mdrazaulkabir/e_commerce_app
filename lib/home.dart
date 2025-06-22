@@ -103,14 +103,7 @@ class _HomeState extends State<Home> {
 
                               }
                             });
-
-
-
                             Navigator.pop(context);
-                            await productController.fetchProduct();
-                            setState(() {
-
-                            });
                           }, child: Text(isUpdate? "Update product":"Add product"))
                     ],
                   )
